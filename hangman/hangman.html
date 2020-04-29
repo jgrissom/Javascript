@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hangman</title>
+    <style>
+        td.letter {
+            width: 20px;
+            height: 20px;
+            border: black 1px solid;
+            text-align:center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        td.letter:hover {
+            background-color: black;
+            color: white;
+        }
+        td.letter.disabled {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="word"></div>
+    <hr>
+    <table id="keyboard">
+        <tr>
+            <td class="letter">A</td>
+            <td class="letter">B</td>
+            <td class="letter">C</td>
+            <td class="letter">D</td>
+            <td class="letter">E</td>
+            <td class="letter">F</td>
+            <td class="letter">G</td>
+            <td class="letter">H</td>
+            <td class="letter">I</td>
+            <td class="letter">J</td>
+            <td class="letter">K</td>
+            <td class="letter">L</td>
+            <td class="letter">M</td>
+        </tr>
+        <tr>
+            <td class="letter">N</td>
+            <td class="letter">O</td>
+            <td class="letter">P</td>
+            <td class="letter">Q</td>
+            <td class="letter">R</td>
+            <td class="letter">S</td>
+            <td class="letter">T</td>
+            <td class="letter">U</td>
+            <td class="letter">V</td>
+            <td class="letter">W</td>
+            <td class="letter">X</td>
+            <td class="letter">Y</td>
+            <td class="letter">Z</td>
+        </tr>
+    </table>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        $(function(){
+            // create list of words
+            var words = ["book", "calculator", "pen", "pencil"];
+            // generate random number between 0 and 1 less than the length of the array
+            var num = Math.floor(Math.random() * words.length);
+            // display random word from list
+            var word = words[num];
+            console.log(word);
+            var displayWord = "";
+            for (var i = 0; i < word.length; i++){
+                displayWord += "-";
+            }
+            $('#word').html(displayWord);
+            // attach event listener to letter class
+            $('td.letter').on('click', function(){
+                $(this).addClass('disabled');
+                var letter = $(this).html().toLowerCase();
+                for (var i = 0; i < word.length; i++){
+                    //console.log(word[i]);
+                    if (word[i] == letter){
+                        // letter matched
+                        displayWord = setCharAt(displayWord, i, letter);
+                    }
+                }
+                $('#word').html(displayWord);
+            });
+        })
+        function setCharAt(str,index,chr) {
+            if(index > str.length-1) return str;
+            return str.substr(0,index) + chr + str.substr(index+1);
+        }
+    </script>
+</body>
+</html>
